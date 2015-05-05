@@ -1,27 +1,46 @@
 package ClientServer;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+
+import BlackJack.BlackJackDemo;
+import Poker.PokerDemo;
+import slotMachineGUI.SlotMachineGUI;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 public class Client {
 
+	
     BufferedReader in;
     PrintWriter out;
     JFrame frame = new JFrame("Casino");
     JTextField textField = new JTextField(40);
-    JTextArea messageArea = new JTextArea(8, 40);
-
+    JTextArea messageArea = new JTextArea(20, 40);
+    
     /**
      * Constructs the client by laying out the GUI and registering a
      * listener with the textfield so that pressing Return in the
@@ -35,7 +54,11 @@ public class Client {
         // Layout GUI
         textField.setEditable(false);
         messageArea.setEditable(false);
-        frame.getContentPane().add(textField, "North");
+        frame.setResizable(true);
+        frame.setVisible(true);
+        frame.setSize(220, 400);
+        frame.setLocationRelativeTo(null);  
+         
         frame.getContentPane().add(new JScrollPane(messageArea), "Center");
         frame.pack();
 
@@ -65,7 +88,7 @@ public class Client {
     }
     
     private String getGame() {
-    	String[] choices = { "Poker: Texas Hold'em", "Blackjack", "Slot Machine" };
+    	String[] choices = { "Slot Machine" , "Blackjack", "Poker" };
         return (String) JOptionPane.showInputDialog(frame, "Choose now...",
                 "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null, 
 choices, 
@@ -94,7 +117,23 @@ choices[0]);
             	name = getName();
                 out.println(name);
             } else if (line.startsWith("NAMEACCEPTED")) {
-            	out.println("GAME"+getGame());
+            	String game = getGame(); 
+            if(game.equals("Blackjack")){
+            	
+            		BlackJackDemo.main(name);
+            	
+            	}
+            if(game.equals("Slot Machine")){
+            	frame.setVisible(false);
+            	SlotMachineGUI.main(null);
+            	
+            }
+            if(game.equals("Poker")){
+            	frame.setVisible(false);
+            	PokerDemo.main(null);
+            	
+            }
+            		out.println("GAME"+game);
                 textField.setEditable(true);
             } else if (line.startsWith("MESSAGE")) {
                 messageArea.append(line.substring(8) + "\n");
@@ -102,9 +141,9 @@ choices[0]);
         }
     }
 
-    /**
-     * Runs the client as an application with a closeable frame.
-     */
+  
+
+	
     public static void main(String[] args) throws Exception {
         Client client = new Client();
         client.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
