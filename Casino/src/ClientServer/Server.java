@@ -31,19 +31,7 @@ public class Server {
      * spawns handler threads.
      */
     public static void main(String[] args) throws Exception {
-    	try {
-            // Assume default encoding.
-			PrintWriter writer = new PrintWriter("Players.txt");
-			writer.print("0");
-			writer.close();
-        }
-        catch(IOException ex) {
-            System.out.println(
-                "Error writing to file '"
-                + "Players.txt" + "'");
-            // Or we could just do this:
-            // ex.printStackTrace();
-        }
+    	
         System.out.println("The chat server is running.");
         ServerSocket listener = new ServerSocket(PORT);
         try {
