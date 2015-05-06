@@ -26,7 +26,7 @@ import javax.swing.JTextPane;
 
 import BlackJack.BlackJackDemo;
 import Poker.PokerDemo;
-import slotMachineGUI.SlotMachineGUI;
+import slotMachine.SlotMachineGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,5 +1,5 @@
 
-package slotMachineGUI;
+package slotMachine;
 
 import java.awt.*;
 
